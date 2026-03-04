@@ -16,10 +16,10 @@ export const TodoModal: React.FC<Props> = ({ todo, onClose }) => {
   useEffect(() => {
     setLoading(true);
 
-    api.getUser(todo.userId)
+    api
+      .getUser(todo.userId)
       .then(setUserDetails)
       .finally(() => setLoading(false));
-
   }, [todo]);
 
   return (

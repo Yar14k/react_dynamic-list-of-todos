@@ -15,23 +15,21 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  const [filteredStatus, setFilteredStatus] = useState<
-  'all' | 'active' | 'completed'
-  >('all');
+  const [status, setStatus] = useState<'all' | 'active' | 'completed'>('all');
   const [filteredQuery, setFilteredQuery] = useState('');
 
   const filteredTodos = todos
     .filter(todo => {
-      if (filteredStatus === 'active') {
-        return !todo.completed;
-      }
+      switch (status) {
+        case 'active':
+          return !todo.completed;
 
-      if (filteredStatus === 'completed') {
-        return todo.completed;
-      }
+        case 'completed':
+          return todo.completed;
 
-      if (filteredStatus === 'all') {
-        return true;
+        case 'all':
+        default:
+          return true;
       }
     })
     .filter(todo =>
@@ -55,9 +53,9 @@ export const App: React.FC = () => {
 
             <div className="block">
               <TodoFilter
-                status={filteredStatus}
+                status={status}
                 query={filteredQuery}
-                onStatusChange={setFilteredStatus}
+                onStatusChange={setStatus}
                 onQueryChange={setFilteredQuery}
               />
             </div>
